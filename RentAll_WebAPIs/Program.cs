@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using RentAll_WebAPIs.Data;
+using RentAll_WebAPIs.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -34,7 +35,7 @@ builder.Services.AddCors(options =>
             .AllowCredentials();
     });
 });
-
+builder.Services.AddScoped<IEquipmentService, EquipmentService>();
 var app = builder.Build();
 
 app.UseCors("angular");

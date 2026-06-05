@@ -1,6 +1,6 @@
 ﻿namespace RentAll_WebAPIs.DTOs
 {
-    public class Class
+    public class UpdateBookingStatusDto
     {
     }
 }
