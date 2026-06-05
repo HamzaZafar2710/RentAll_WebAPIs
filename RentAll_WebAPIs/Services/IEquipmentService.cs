@@ -1,4 +1,5 @@
-﻿using RentAll_WebAPIs.Models;
+﻿using RentAll_WebAPIs.DTOs;
+using RentAll_WebAPIs.Models;
 
 namespace RentAll_WebAPIs.Services
 {
@@ -6,8 +7,8 @@ namespace RentAll_WebAPIs.Services
     {
         Task<List<Equipment>> GetAllEquipmentAsync();
         Task<Equipment?> GetEquipmentByIdAsync(int id);
-        Task<Equipment> AddEquipmentAsync(Equipment equipment);
-        Task<bool> UpdateEquipmentAsync(int id, Equipment equipment);
+        Task<Equipment> AddEquipmentAsync(EquipmentCreateDto dto, string imageUrl);
+        Task<bool> UpdateEquipmentAsync(int id, EquipmentUpdateDto dto, string? imageUrl = null);
         Task<bool> DeleteEquipmentAsync(int id);
     }
 }
