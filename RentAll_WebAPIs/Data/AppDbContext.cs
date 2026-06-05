@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using RentAll_WebAPIs.Models;
+using RentAll_WebAPIs.Helpers;
 
 namespace RentAll_WebAPIs.Data
 {
@@ -29,7 +30,34 @@ namespace RentAll_WebAPIs.Data
                 foreach (var prop in entity.GetProperties())
                     prop.SetColumnName(prop.GetColumnName().ToLower());
             }
+            modelBuilder.Entity<User>().HasData(
 
+                new User
+                {
+                    Id = 1,
+                    Username = "owner1",
+                    Email = "owner1@test.com",
+                    PasswordHash =
+                        PasswordHelper.HashPassword(
+                            "123456"),
+                    Role = "Owner",
+                    CreatedAt =
+                        new DateTime(2025,1,1)
+                },
+
+                new User
+                {
+                    Id = 2,
+                    Username = "owner2",
+                    Email = "owner2@test.com",
+                    PasswordHash =
+                        PasswordHelper.HashPassword(
+                            "123456"),
+                    Role = "Owner",
+                    CreatedAt =
+                        new DateTime(2025,1,1)
+                }
+            );
 
         }
     }
