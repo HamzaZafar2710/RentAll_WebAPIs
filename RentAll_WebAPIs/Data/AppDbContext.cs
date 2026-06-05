@@ -56,6 +56,29 @@ namespace RentAll_WebAPIs.Data
                     Role = "Owner",
                     CreatedAt =
                         new DateTime(2025,1,1)
+                },
+
+                new User
+                {
+                    Id = 3,
+                    Username = "owner3",
+                    Email = "owner3@test.com",
+                    PasswordHash =
+                        PasswordHelper.HashPassword(
+                            "123456"),
+                    Role = "Owner",
+                    CreatedAt = new DateTime(2025,1,1)
+                },
+                new User
+                {
+                    Id = 4,
+                    Username = "owner4",
+                    Email = "owner4@test.com",
+                    PasswordHash =
+                        PasswordHelper.HashPassword(
+                            "123456"),
+                    Role = "Owner",
+                    CreatedAt = new DateTime(2025,1,1)
                 }
             );
 

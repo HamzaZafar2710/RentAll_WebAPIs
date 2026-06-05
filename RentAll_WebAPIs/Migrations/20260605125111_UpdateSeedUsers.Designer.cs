@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using RentAll_WebAPIs.Data;
 
@@ -10,9 +11,11 @@ using RentAll_WebAPIs.Data;
 namespace RentAll_WebAPIs.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260605125111_UpdateSeedUsers")]
+    partial class UpdateSeedUsers
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.12");
@@ -225,7 +228,7 @@ namespace RentAll_WebAPIs.Migrations
                             Id = 3,
                             CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "owner3@test.com",
-                            PasswordHash = "jZae727K08KaOmKSgOaGzww/XVqGr/PKEgIMkjrcbJI=",
+                            PasswordHash = "123456",
                             Role = "Owner",
                             Username = "owner3"
                         },
@@ -234,7 +237,7 @@ namespace RentAll_WebAPIs.Migrations
                             Id = 4,
                             CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "owner4@test.com",
-                            PasswordHash = "jZae727K08KaOmKSgOaGzww/XVqGr/PKEgIMkjrcbJI=",
+                            PasswordHash = "123456",
                             Role = "Owner",
                             Username = "owner4"
                         });
