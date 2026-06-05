@@ -1,24 +1,57 @@
-public class Booking
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
+
+namespace RentAll_WebAPIs.Models
 {
-    public int Id { get; set; }
 
-    public int EquipmentId { get; set; }
+    public class Booking
+    {
+        public int Id { get; set; }
 
-    public string RenterName { get; set; }
+        public int EquipmentId { get; set; }
 
-    public DateTime StartDate { get; set; }
+        [Required]
+        [StringLength(100)]
+        public string RenterName { get; set; }= string.Empty;
 
-    public DateTime EndDate { get; set; }
+        [Required]
+        [EmailAddress]
+        [StringLength(100)]
+        public string Email { get; set; }= string.Empty;
 
-    public int TotalDays { get; set; }
+        [Required]
+        [Phone]
+        [StringLength(20)]
+        public string PhoneNumber { get; set; }= string.Empty;
 
-    public decimal TotalPrice { get; set; }
+        [Required]
+        [StringLength(300)]
+        public string Address { get; set; }= string.Empty;
 
-    public decimal DepositAmount { get; set; }
+        public DateTime StartDate { get; set; }
 
-    public string Status { get; set; }
+        public DateTime EndDate { get; set; }
 
-    public DateTime CreatedAt { get; set; }
+        [Range(1, 365)]
+        public int TotalDays { get; set; }
 
-    public Equipment Equipment { get; set; }
+        [Column(TypeName = "decimal(18,2)")]
+        [Range(0, 9999999)]
+        public decimal TotalPrice { get; set; }
+
+        [Column(TypeName = "decimal(18,2)")]
+        [Range(0, 9999999)]
+        public decimal DepositAmount { get; set; }
+
+        [StringLength(20)]
+        public string Status { get; set; }= string.Empty;
+
+        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+
+        [ForeignKey(nameof(EquipmentId))]
+        public Equipment Equipment { get; set; } = null!;
+
+        public ICollection<BookingStatusHistory> StatusHistory { get; set; } = new List<BookingStatusHistory>();
+    }
 }
