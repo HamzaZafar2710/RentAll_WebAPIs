@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using RentAll_WebAPIs.Models;
 
 namespace RentAll_WebAPIs.Data
 {

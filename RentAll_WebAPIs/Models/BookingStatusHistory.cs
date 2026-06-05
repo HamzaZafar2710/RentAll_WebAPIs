@@ -1,12 +1,22 @@
-public class BookingStatusHistory
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
+
+namespace RentAll_WebAPIs.Models
 {
-    public int Id { get; set; }
 
-    public int BookingId { get; set; }
+    public class BookingStatusHistory
+    {
+        public int Id { get; set; }
 
-    public string Status { get; set; }
+        public int BookingId { get; set; }
 
-    public DateTime ChangedAt { get; set; }
+        [StringLength(20)]
+        public string Status { get; set; }= string.Empty;
 
-    public Booking Booking { get; set; }
+        public DateTime ChangedAt { get; set; } = DateTime.UtcNow;
+
+        [ForeignKey(nameof(BookingId))]
+        public Booking Booking { get; set; } = null!;
+    }
 }
