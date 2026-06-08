@@ -113,6 +113,28 @@ namespace RentAll_WebAPIs.Controllers
             await _equipmentService.DeleteEquipmentAsync(id);
             return NoContent();
         }
+
+        [HttpGet("{id:int}/availability")]
+        public async Task<IActionResult> GetAvailabilityStatus(int id)
+        {
+            var equipment = await _equipmentService.GetEquipmentByIdAsync(id);
+            if (equipment == null)
+                return NotFound(new { message = $"Equipment with ID {id} not found." });
+
+            var status = await _equipmentService.GetAvailabilityStatusAsync(id);
+            return Ok(new { equipmentId = id, status });
+        }
+
+        [HttpPatch("{id:int}/availability")]
+        [Authorize]
+        public async Task<IActionResult> SetAvailability(int id, [FromBody] SetAvailabilityDto dto)
+        {
+            var updated = await _equipmentService.SetAvailabilityAsync(id, dto.IsAvailable);
+            if (!updated)
+                return NotFound(new { message = $"Equipment with ID {id} not found." });
+
+            return Ok(new { equipmentId = id, isAvailable = dto.IsAvailable });
+        }
     }
 }
 

@@ -10,5 +10,7 @@ namespace RentAll_WebAPIs.Services
         Task<Equipment> AddEquipmentAsync(EquipmentCreateDto dto, string imageUrl);
         Task<bool> UpdateEquipmentAsync(int id, EquipmentUpdateDto dto, string? imageUrl = null);
         Task<bool> DeleteEquipmentAsync(int id);
+        Task<string> GetAvailabilityStatusAsync(int equipmentId);
+        Task<bool> SetAvailabilityAsync(int id, bool isAvailable);
     }
 }

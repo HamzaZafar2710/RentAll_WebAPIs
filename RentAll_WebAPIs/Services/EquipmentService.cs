@@ -72,6 +72,40 @@ namespace RentAll_WebAPIs.Services
 
             return true;
         }
+
+        public async Task<string> GetAvailabilityStatusAsync(int equipmentId)
+        {
+            var equipment = await _context.Equipment.FindAsync(equipmentId);
+            if (equipment == null) return "Not Found";
+
+            if (!equipment.IsAvailable)
+                return "Unavailable";
+
+            var activeBooking = await _context.Bookings
+                .Where(b => b.EquipmentId == equipmentId
+                         && (b.Status == "Confirmed" || b.Status == "Pending")
+                         && b.EndDate >= DateTime.UtcNow)
+                .OrderBy(b => b.EndDate)
+                .FirstOrDefaultAsync();
+
+            if (activeBooking == null)
+                return "Available";
+
+            var daysRemaining = (int)Math.Ceiling((activeBooking.EndDate - DateTime.UtcNow).TotalDays);
+            return daysRemaining <= 1
+                ? "Available in 1 day"
+                : $"Available in {daysRemaining} days";
+        }
+
+        public async Task<bool> SetAvailabilityAsync(int id, bool isAvailable)
+        {
+            var equipment = await _context.Equipment.FindAsync(id);
+            if (equipment == null) return false;
+
+            equipment.IsAvailable = isAvailable;
+            await _context.SaveChangesAsync();
+            return true;
+        }
     }
 }
 
