@@ -48,8 +48,7 @@ namespace RentAll_WebAPIs.Controllers
         }
 
         [HttpPost]
-        [Authorize]
-        [Consumes("Multipart/form-data")]
+        [Consumes("multipart/form-data")]
         public async Task<IActionResult> AddEquipment([FromForm] EquipmentCreateDto dto,IFormFile? image)
         {
             if (!ModelState.IsValid)
@@ -73,7 +72,6 @@ namespace RentAll_WebAPIs.Controllers
 
 
         [HttpPut("{id:int}")]
-        [Authorize]
         [Consumes("multipart/form-data")]
         public async Task<IActionResult> UpdateEquipment(
             int id,
@@ -110,7 +108,6 @@ namespace RentAll_WebAPIs.Controllers
 
 
         [HttpDelete("{id:int}")]
-        [Authorize]
         public async Task<IActionResult> DeleteEquipment(int id)
         {
             var existing = await _equipmentService.GetEquipmentByIdAsync(id);
@@ -135,7 +132,6 @@ namespace RentAll_WebAPIs.Controllers
         }
 
         [HttpPatch("{id:int}/availability")]
-        [Authorize]
         public async Task<IActionResult> SetAvailability(int id, [FromBody] SetAvailabilityDto dto)
         {
             var updated = await _equipmentService.SetAvailabilityAsync(id, dto.IsAvailable);
