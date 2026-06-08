@@ -32,6 +32,33 @@ namespace RentAll_WebAPIs.Controllers
             return booking;
         }
 
+        [HttpGet("equipment/{equipmentId}")]
+        public async Task<IActionResult> GetBookingsByEquipment(int equipmentId)
+        {
+            var bookings =
+                await _bookingService.GetBookingsByEquipmentAsync(equipmentId);
+
+            return Ok(bookings);
+        }
+
+        [HttpGet("owner/{ownerId}")]
+        public async Task<IActionResult> GetBookingsByOwner(int ownerId)
+        {
+            var bookings =
+                await _bookingService.GetBookingsByOwnerAsync(ownerId);
+
+            return Ok(bookings);
+        }
+
+        [HttpGet("{id}/history")]
+        public async Task<IActionResult> GetHistory(int id)
+        {
+            var history =
+                await _bookingService.GetHistoryByBookingAsync(id);
+
+            return Ok(history);
+        }
+
         [HttpPost]
         public async Task<ActionResult<BookingResponseDto>> Create(CreateBookingDto dto)
         {
@@ -41,6 +68,22 @@ namespace RentAll_WebAPIs.Controllers
                 nameof(GetById),
                 new { id = booking.Id },
                 booking);
+        }
+
+        [HttpPost("availability")]
+        public async Task<IActionResult> CheckAvailability(
+            AvailabilityCheckDto dto)
+        {
+            var available =
+                await _bookingService.IsEquipmentAvailableAsync(
+                    dto.EquipmentId,
+                    dto.StartDate,
+                    dto.EndDate);
+
+            return Ok(new
+            {
+                available
+            });
         }
 
         [HttpPut("{id}/status")]
@@ -54,6 +97,18 @@ namespace RentAll_WebAPIs.Controllers
                     dto.Status);
 
             if (!updated)
+                return NotFound();
+
+            return NoContent();
+        }
+
+        [HttpPatch("{id}/cancel")]
+        public async Task<IActionResult> CancelBooking(int id)
+        {
+            var cancelled =
+                await _bookingService.CancelBookingAsync(id);
+
+            if (!cancelled)
                 return NotFound();
 
             return NoContent();

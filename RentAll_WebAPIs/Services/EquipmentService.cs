@@ -24,6 +24,13 @@ namespace RentAll_WebAPIs.Services
             return await _context.Equipment.Include(e => e.Owner).FirstOrDefaultAsync(e => e.Id == id);
         }
 
+        public async Task<List<Equipment>> GetEquipmentByOwnerAsync(int ownerId)
+        {
+            return await _context.Equipment
+                .Where(e => e.OwnerId == ownerId)
+                .ToListAsync();
+        }
+
         public async Task<Equipment> AddEquipmentAsync(EquipmentCreateDto dto, string imageUrl)
         {
             var equipment = new Equipment
