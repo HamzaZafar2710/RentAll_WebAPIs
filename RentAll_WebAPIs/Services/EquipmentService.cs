@@ -108,9 +108,3 @@ namespace RentAll_WebAPIs.Services
         }
     }
 }
-
-
-
-
-
-
