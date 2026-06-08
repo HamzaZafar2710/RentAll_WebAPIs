@@ -104,6 +104,74 @@ namespace RentAll_WebAPIs.Services
             return true;
         }
 
+
+        public async Task<List<BookingResponseDto>>
+GetBookingsByEquipmentAsync(int equipmentId)
+        {
+            var bookings = await _context.Bookings
+                .Where(b => b.EquipmentId == equipmentId)
+                .ToListAsync();
+
+            return bookings.Select(MapToDto).ToList();
+        }
+
+        public async Task<List<BookingResponseDto>>
+GetBookingsByOwnerAsync(int ownerId)
+        {
+            var bookings = await _context.Bookings
+                .Include(b => b.Equipment)
+                .Where(b => b.Equipment.OwnerId == ownerId)
+                .ToListAsync();
+
+            return bookings.Select(MapToDto).ToList();
+        }
+
+        public async Task<bool> CancelBookingAsync(int id)
+        {
+            var booking = await _context.Bookings.FindAsync(id);
+
+            if (booking == null)
+                return false;
+
+            booking.Status = "Cancelled";
+
+            _context.BookingStatusHistories.Add(
+                new BookingStatusHistory
+                {
+                    BookingId = booking.Id,
+                    Status = "Cancelled"
+                });
+
+            await _context.SaveChangesAsync();
+
+            return true;
+        }
+
+        public async Task<bool> IsEquipmentAvailableAsync(
+    int equipmentId,
+    DateTime startDate,
+    DateTime endDate)
+        {
+            var conflict = await _context.Bookings
+                .AnyAsync(b =>
+                    b.EquipmentId == equipmentId &&
+                    b.Status != "Cancelled" &&
+                    startDate <= b.EndDate &&
+                    endDate >= b.StartDate);
+
+            return !conflict;
+        }
+
+        public async Task<List<BookingStatusHistory>>
+GetHistoryByBookingAsync(int bookingId)
+        {
+            return await _context.BookingStatusHistories
+                .Where(h => h.BookingId == bookingId)
+                .OrderByDescending(h => h.ChangedAt)
+                .ToListAsync();
+        }
+
+
         private BookingResponseDto MapToDto(Booking booking)
         {
             return new BookingResponseDto

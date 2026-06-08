@@ -12,5 +12,6 @@ namespace RentAll_WebAPIs.Services
         Task<bool> DeleteEquipmentAsync(int id);
         Task<string> GetAvailabilityStatusAsync(int equipmentId);
         Task<bool> SetAvailabilityAsync(int id, bool isAvailable);
+        Task<List<Equipment>> GetEquipmentByOwnerAsync(int ownerId);
     }
 }

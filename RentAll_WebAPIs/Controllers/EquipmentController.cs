@@ -38,6 +38,15 @@ namespace RentAll_WebAPIs.Controllers
             return equipment;
         }
 
+        [HttpGet("owner/{ownerId}")]
+        public async Task<ActionResult<List<Equipment>>> GetByOwner(int ownerId)
+        {
+            var equipment =
+                await _equipmentService.GetEquipmentByOwnerAsync(ownerId);
+
+            return Ok(equipment);
+        }
+
         [HttpPost]
         [Authorize]
         [Consumes("Multipart/form-data")]
