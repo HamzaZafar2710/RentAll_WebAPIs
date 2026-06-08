@@ -8,14 +8,26 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("angular", policy =>
+    {
+        policy.WithOrigins("http://localhost:4200")
+              .AllowAnyMethod()
+              .AllowAnyHeader()
+              .AllowCredentials();
+    });
+});
 
 builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
+    options.UseSqlite(
+        builder.Configuration.GetConnectionString("DefaultConnection")));
 
 builder.Services.AddScoped<FileService>();
+
 builder.Services.AddScoped<IEquipmentService, EquipmentService>();
+builder.Services.AddScoped<IBookingService, BookingService>();
+
 builder.Services.AddScoped<
     IUserRepository,
     UserRepository>();
@@ -24,27 +36,10 @@ builder.Services.AddScoped<
     IAuthService,
     AuthService>();
 
-
-
-
-builder.Services.AddCors(options =>
-{
-    options.AddPolicy("angular", builder =>
-    {
-        builder.WithOrigins("http://localhost:4200")
-               .AllowAnyMethod()
-               .AllowAnyHeader()
-               .AllowCredentials();
-
-    });
-});
-
 builder.Services.AddHttpClient();
+
 var app = builder.Build();
 
-app.UseCors("angular");
-
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -53,9 +48,9 @@ if (app.Environment.IsDevelopment())
 
 app.UseRouting();
 
-app.UseCors("AllowReactApp");
+app.UseCors("angular");
 
-app.UseAuthentication();
+// app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

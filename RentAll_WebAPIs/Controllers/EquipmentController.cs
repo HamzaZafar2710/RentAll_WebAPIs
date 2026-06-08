@@ -137,8 +137,3 @@ namespace RentAll_WebAPIs.Controllers
         }
     }
 }
-
-
-
-
-
