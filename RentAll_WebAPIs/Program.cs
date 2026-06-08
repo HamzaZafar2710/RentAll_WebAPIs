@@ -27,6 +27,7 @@ builder.Services.AddScoped<FileService>();
 
 builder.Services.AddScoped<IEquipmentService, EquipmentService>();
 builder.Services.AddScoped<IBookingService, BookingService>();
+builder.Services.AddScoped<IBookingStatusHistoryService, BookingStatusHistoryService>();
 
 builder.Services.AddScoped<
     IUserRepository,
