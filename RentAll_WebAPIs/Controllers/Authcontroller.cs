@@ -32,6 +32,6 @@ public class AuthController : ControllerBase
                 });
         }
 
-        return Ok(user);
+        return Ok( new { id = user.Id, userName = user.Username });
     }
 }
